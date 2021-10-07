@@ -36,12 +36,20 @@ struct movie *createMovie(char *currLine)
     currMovie->year = atoi(token);
 
     // The next token(s) is the languages
+
+    //Tokenize all the languages into one string
+    char *langPtr;
+    char *langToken = strtok_r(NULL, "[]", &saveptr);
+    char *langLine = langToken;
+    langToken = strtok_r(langLine, "[;]", &langPtr);
+
     int index = 0;
-    token = strtok_r(NULL, "[;]", &saveptr);
-    while(token != NULL) {
-        currMovie->languages[index] = calloc(strlen(token) + 1, sizeof(char));
-        strcpy(currMovie->languages[index], token);
-        token = strtok_r(NULL, "[;]", &saveptr);
+
+    //Tokenize language string into movie struct
+    while(langToken != NULL) {
+        currMovie->languages[index] = calloc(strlen(langToken) + 1, sizeof(char));
+        strcpy(currMovie->languages[index], langToken);
+        token = strtok_r(NULL, ";", &saveptr);
         index++;
     };
 
