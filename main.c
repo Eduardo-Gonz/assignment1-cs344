@@ -41,19 +41,21 @@ struct movie *createMovie(char *currLine)
     char *langPtr;
     char *langToken = strtok_r(NULL, "[]", &saveptr);
     char *langLine = langToken;
-    langToken = strtok_r(langLine, "[;]", &langPtr);
+    langToken = strtok_r(langLine, ";", &langPtr);
 
     int index = 0;
 
     //Tokenize language string into movie struct
     while(langToken != NULL) {
         strcpy(currMovie->languages[index], langToken);
-        token = strtok_r(NULL, ";", &saveptr);
+        langToken = strtok_r(NULL, ";", &langPtr);
         index++;
     };
 
     // The last token is the rating
-    token = strtok_r(NULL, "\n", &saveptr);
+    printf("Hello");
+    token = strtok_r(NULL, ",\n", &saveptr);
+    printf("%s", token);
     currMovie->rating = strtod(token, NULL);
 
     // Set the next node to NULL in the newly created student entry
