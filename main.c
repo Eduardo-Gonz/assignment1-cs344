@@ -11,7 +11,7 @@ struct movie
 {
     char *title;
     int year;
-    char *languages[5];
+    char languages[5][21];
     double rating;
     struct movie *next;
 };
@@ -47,7 +47,6 @@ struct movie *createMovie(char *currLine)
 
     //Tokenize language string into movie struct
     while(langToken != NULL) {
-        currMovie->languages[index] = calloc(strlen(langToken) + 1, sizeof(char));
         strcpy(currMovie->languages[index], langToken);
         token = strtok_r(NULL, ";", &saveptr);
         index++;
