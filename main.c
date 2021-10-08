@@ -53,9 +53,7 @@ struct movie *createMovie(char *currLine)
     };
 
     // The last token is the rating
-    printf("Hello");
     token = strtok_r(NULL, ",\n", &saveptr);
-    printf("%s", token);
     currMovie->rating = strtod(token, NULL);
 
     // Set the next node to NULL in the newly created student entry
@@ -88,6 +86,8 @@ struct movie *processFile(char *filePath)
     getline(&stringBuffer, &len, movieFile);
     free(stringBuffer);
 
+    int numOfMovies = 0;
+
     // Read the file line by line
     while ((nread = getline(&currLine, &len, movieFile)) != -1)
     {
@@ -109,7 +109,10 @@ struct movie *processFile(char *filePath)
             tail->next = newNode;
             tail = newNode;
         }
+        numOfMovies++;
     }
+
+    printf("processed %s and parsed data for %d movies", filePath, numOfMovies);
     free(currLine);
     fclose(movieFile);
     return head;
@@ -142,6 +145,18 @@ void printMovieList(struct movie *list)
     }
 }
 
+//Free memory allocated for the movie linked list
+void freeList (struct movie *head) {
+    struct movie *temp;
+
+    while(head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp->title);
+        free(temp);
+    }
+}
+
 /*
 *   Process the file provided as an argument to the program to
 *   create a linked list of student structs and print out the list.
@@ -158,39 +173,6 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     struct movie *list = processFile(argv[1]);
-    printMovieList(list);
+    // printMovieList(list);
     return EXIT_SUCCESS;
 }
-
-
-
-
-
-// #include <stdio.h>
-// #include <string.h>
-
-// int main(void)
-// {
-//     char *languages[5] = {NULL};
-//     char src[] = "[English;Spanish;Dutch]";
-    
-//     char *currentLine = src;
-//     char *saveptr;
-//     int index = 0;
-//     char *token = strtok_r(currentLine, "[;]", &saveptr);
-    
-//     while(token != NULL) {
-//         languages[index] = calloc(strlen(token) + 1, sizeof(char));
-//         strcpy(languages[index], token);
-//         token = strtok_r(NULL, "[;]", &saveptr);
-//         index++;
-//     }
-    
-//     int size = sizeof(languages)/ sizeof(*languages);
-//     for(int i = 0; i < size; i++) {
-//       if(languages[i] != NULL) 
-//         printf("%s \n", languages[i]);
-//       else
-//         break;
-//     };
-// }
