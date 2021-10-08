@@ -112,7 +112,7 @@ struct movie *processFile(char *filePath)
         numOfMovies++;
     }
 
-    printf("processed %s and parsed data for %d movies", filePath, numOfMovies);
+    printf("processed %s and parsed data for %d movies\n\n", filePath, numOfMovies);
     free(currLine);
     fclose(movieFile);
     return head;
@@ -145,6 +145,19 @@ void printMovieList(struct movie *list)
     }
 }
 
+
+// Prompt the user for what kind of information they want to see
+int promptUser() {
+    int answer;
+
+    printf("\n1. Show movies released in the specified year\n2. Show highest rated movie for each year\n3. Show the title and year of release of all movies in a specified language\n4. Exit from the program\n");
+        
+    printf("\nEnter a choice from 1 to 4: ");
+    scanf("%i", &answer);
+
+    return answer;
+}
+
 //Free memory allocated for the movie linked list
 void freeList (struct movie *head) {
     struct movie *temp;
@@ -173,6 +186,17 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     struct movie *list = processFile(argv[1]);
-    // printMovieList(list);
+
+    int choice;
+    do{
+        choice = promptUser();
+        if(0 < choice && choice < 5)
+            printf("doChoice(list)");
+        else
+            printf("ERROR: Please choose an integer within the range of [1, 4]\n\n");
+
+    }while(choice != 4);
+
+    freeList(list);
     return EXIT_SUCCESS;
 }
