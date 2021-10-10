@@ -145,12 +145,36 @@ void printMovieList(struct movie *list)
     }
 }
 
+//Shows movies released in a specific year
+void showMovieByYear(struct movie *list) {
+
+    //Ask the user for the year
+    int year;
+    printf("\nEnter the year for which you want to see movies: ");
+    scanf("%i", &year);
+
+    int foundYear = 0;
+
+    while(list != NULL) {
+
+        if(list->year == year) {
+            printf("\n%s", list->title);
+            foundYear++;
+        }
+
+        list = list->next;
+    }
+
+    if(foundYear == 0)
+        printf("\nno data about movies released in %i\n", year);
+
+}
 
 // Prompt the user for what kind of information they want to see
 int promptUser() {
     int answer;
 
-    printf("\n1. Show movies released in the specified year\n2. Show highest rated movie for each year\n3. Show the title and year of release of all movies in a specified language\n4. Exit from the program\n");
+    printf("\n\n1. Show movies released in the specified year\n2. Show highest rated movie for each year\n3. Show the title and year of release of all movies in a specified language\n4. Exit from the program\n");
         
     printf("\nEnter a choice from 1 to 4: ");
     scanf("%i", &answer);
@@ -162,7 +186,7 @@ int promptUser() {
 void doChoice(int choice, struct movie *list) {
     switch(choice) {
         case 1:
-            printf("Show movies released in a specific year");
+            showMovieByYear(list);
             break;
         case 2:
             printf("Show highest rated movie for each year");
@@ -176,7 +200,6 @@ void doChoice(int choice, struct movie *list) {
     }
 
 }
-
 
 //Free memory allocated for the movie linked list
 void freeList (struct movie *head) {
