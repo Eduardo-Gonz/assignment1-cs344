@@ -158,6 +158,26 @@ int promptUser() {
     return answer;
 }
 
+//Pick an action depending on user choice.
+void doChoice(int choice, struct movie *list) {
+    switch(choice) {
+        case 1:
+            printf("Show movies released in a specific year");
+            break;
+        case 2:
+            printf("Show highest rated movie for each year");
+            break;
+        case 3:
+            printf("Show movies and their year of release");
+            break;
+
+        default:
+            printf("See you next time!");
+    }
+
+}
+
+
 //Free memory allocated for the movie linked list
 void freeList (struct movie *head) {
     struct movie *temp;
@@ -191,7 +211,7 @@ int main(int argc, char *argv[])
     do{
         choice = promptUser();
         if(0 < choice && choice < 5)
-            printf("doChoice(list)");
+            doChoice(choice, list);
         else
             printf("ERROR: Please choose an integer within the range of [1, 4]\n\n");
 
