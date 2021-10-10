@@ -200,6 +200,32 @@ void findHighestRated(struct movie *list) {
     printHighestRated(movieArr);
 }
 
+int matchLang(char movieLang[5][21], char userLang[21]) {
+    for(int i = 0; i < 5; i++) {
+        if(strcmp(movieLang[i], userLang) == 0 )
+            return 1;
+    }
+    return 0;
+}
+
+//Find and print movies that are released in a user-specified language
+void findMovieByLang(struct movie *list) {
+    char userLang[21];
+    printf("\nEnter the language for which you want to see movies: ");
+    scanf("%s", userLang);
+
+    int foundMatch = 0;
+    while(list != NULL) {
+        if(matchLang(list->languages, userLang) == 1){
+            printf("\n%i, %s", list->year, list->title);
+            foundMatch++;
+        }
+        list = list->next;
+    }
+    if(foundMatch == 0)
+        printf("\nno data about movies released in %s", userLang);
+}
+
 // Prompt the user for what kind of information they want to see
 int promptUser() {
     int answer;
@@ -222,7 +248,7 @@ void doChoice(int choice, struct movie *list) {
             findHighestRated(list);
             break;
         case 3:
-            printf("Show movies and their year of release");
+            findMovieByLang(list);
             break;
 
         default:
