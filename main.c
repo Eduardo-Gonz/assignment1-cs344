@@ -170,6 +170,36 @@ void showMovieByYear(struct movie *list) {
 
 }
 
+//Print the highest rated movie for each year present in the file.
+void printHighestRated(struct movie *arr[121]){
+    for(int i = 0; i < 121; i++) {
+        if(arr[i] != NULL){
+            printf("\n%d, %.1f, %s", arr[i]->year, 
+                                   arr[i]->rating,
+                                   arr[i]->title);
+        }
+    }
+}
+
+//Find the highest rated movie for each year present in the file and store information of that movie in an array.
+void findHighestRated(struct movie *list) {
+    struct movie *movieArr[121] = {NULL};
+
+    while(list != NULL) {
+
+        int currYear = list->year - 1900;
+        if(movieArr[currYear] == NULL)
+            movieArr[currYear] = list;
+        else{
+            if(movieArr[currYear]->rating < list->rating)
+                movieArr[currYear] = list;
+        }
+        list = list->next;
+    }
+
+    printHighestRated(movieArr);
+}
+
 // Prompt the user for what kind of information they want to see
 int promptUser() {
     int answer;
@@ -189,7 +219,7 @@ void doChoice(int choice, struct movie *list) {
             showMovieByYear(list);
             break;
         case 2:
-            printf("Show highest rated movie for each year");
+            findHighestRated(list);
             break;
         case 3:
             printf("Show movies and their year of release");
