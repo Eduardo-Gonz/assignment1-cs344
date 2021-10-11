@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* struct for student information */
+/* struct for movie information */
 struct movie
 {
     char *title;
@@ -17,7 +17,7 @@ struct movie
 };
 
 /* Parse the current line which is space delimited and create a
-*  student struct with the data in this line
+*  movie struct with the data in this line
 */
 struct movie *createMovie(char *currLine)
 {
@@ -56,14 +56,14 @@ struct movie *createMovie(char *currLine)
     token = strtok_r(NULL, ",\n", &saveptr);
     currMovie->rating = strtod(token, NULL);
 
-    // Set the next node to NULL in the newly created student entry
+    // Set the next node to NULL in the newly created movie entry
     currMovie->next = NULL;
 
     return currMovie;
 }
 
 /*
-* Return a linked list of students by parsing data from
+* Return a linked list of movies by parsing data from
 * each line of the specified file.
 */
 struct movie *processFile(char *filePath)
@@ -91,7 +91,7 @@ struct movie *processFile(char *filePath)
     // Read the file line by line
     while ((nread = getline(&currLine, &len, movieFile)) != -1)
     {
-        // Get a new student node corresponding to the current line
+        // Get a new movie node corresponding to the current line
         struct movie *newNode = createMovie(currLine);
 
         // Is this the first node in the linked list?
@@ -116,33 +116,6 @@ struct movie *processFile(char *filePath)
     free(currLine);
     fclose(movieFile);
     return head;
-}
-
-/*
-* Print data for the given student
-*/
-void printMovie(struct movie* aMovie){
-    printf("%s, %d, [", aMovie->title, aMovie->year);
-
-    for(int i = 0; i < 5; i++) {
-        if(aMovie->languages[i] != NULL)
-            printf(" %s,", aMovie->languages[i]);
-        else
-            break;
-    }
-
-    printf("], %.1f\n", aMovie->rating);
-}
-/*
-* Print the linked list of students
-*/
-void printMovieList(struct movie *list)
-{
-    while (list != NULL)
-    {
-        printMovie(list);
-        list = list->next;
-    }
 }
 
 //Shows movies released in a specific year
@@ -200,6 +173,7 @@ void findHighestRated(struct movie *list) {
     printHighestRated(movieArr);
 }
 
+//Checks if a movie has been released in a user-specified language
 int matchLang(char movieLang[5][21], char userLang[21]) {
     for(int i = 0; i < 5; i++) {
         if(strcmp(movieLang[i], userLang) == 0 )
@@ -238,7 +212,7 @@ int promptUser() {
     return answer;
 }
 
-//Pick an action depending on user choice.
+//Picks an action for the program to perform depending on user choice.
 void doChoice(int choice, struct movie *list) {
     switch(choice) {
         case 1:
@@ -257,7 +231,7 @@ void doChoice(int choice, struct movie *list) {
 
 }
 
-//Free memory allocated for the movie linked list
+//Free all memory allocated for the movie linked list
 void freeList (struct movie *head) {
     struct movie *temp;
 
@@ -271,9 +245,9 @@ void freeList (struct movie *head) {
 
 /*
 *   Process the file provided as an argument to the program to
-*   create a linked list of student structs and print out the list.
+*   create a linked list of movie structs and print out the list.
 *   Compile the program as follows:
-*       gcc --std=gnu99 -o students main.c
+*       gcc --std=gnu99 -o movies main.c
 */
 
 int main(int argc, char *argv[])
